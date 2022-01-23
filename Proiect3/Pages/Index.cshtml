@@ -1,0 +1,105 @@
+﻿@page
+@model IndexModel
+@{
+	ViewData["Title"] = "Home page";
+}
+<div class="row d-flex align-items-center justify-content-center">
+  <div class="text-center col-md-6">
+	<form method="post">
+	  <div class="mt-3">
+		<label class="form-label">Name</label>
+		<input asp-for="Name" pattern="\w+\w" title="Must contain at least 2 letters" type="text" class="form-control" id="inputCardName">
+	  </div>
+	  <div class="mt-3">
+		<label class="form-label">Class</label>
+		<select asp-for="Class" class="form-select">
+		  <option selected>Choose a class</option>
+		  <option value="Death Knight">Death Knight</option>
+		  <option value="Demon Hunter">Demon Hunter</option>
+		  <option value="Dream">Dream</option>
+		  <option value="Druid">Druid</option>
+		  <option value="Hunter">Hunter</option>
+		  <option value="Mage">Mage</option>
+		  <option value="Neutral">Neutral</option>
+		  <option value="Paladin">Paladin</option>
+		  <option value="Priest">Priest</option>
+		  <option value="Rogue">Rogue</option>
+		  <option value="Shaman">Shaman</option>
+		  <option value="Warlock">Warlock</option>
+		  <option value="Warrior">Warrior</option>
+		  <option value="Whizbang">Whizbang</option>
+		</select>
+	  </div>
+	  <div class="mt-3">
+		<label class="form-label">Race</label>
+		<select asp-for="Race" class="form-select">
+		  <option selected>Choose a race</option>
+		  <option value="All">All</option>
+		  <option value="Beast">Beast</option>
+		  <option value="Demon">Demon</option>
+		  <option value="Dragon">Dragon</option>
+		  <option value="Elemental">Elemental</option>
+		  <option value="Murloc">Murloc</option>
+		  <option value="Mech">Mech</option>
+		  <option value="Orc">Orc</option>
+		  <option value="Pirate">Pirate</option>
+		  <option value="Quilboar">Quilboar</option>
+		  <option value="Totem">Totem</option>
+		</select>
+	</div>
+	  <button type="submit" class="btn btn-primary mt-3">Search</button>
+	</form>
+		@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+		{
+			<p style="color: red">
+				@Model.ErrorMessage
+			</p>
+		}
+		else
+		{
+			if (Model.Cards != null)
+			{
+				if (Model.Cards.Count > 0)
+				{
+					<p>@Model.Cards.Count results found</p>
+				}
+				else
+				{
+					<p>No results found</p>
+				}
+			}
+		}
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="row">
+	
+		@if (Model.Cards != null && Model.Cards.Count > 0)
+		{
+			foreach(var card in Model.Cards)
+			{
+				<div class="col-md-2 my-2">
+					<div class="card">
+						@if (card.Rarity != "Legendary")
+						{
+							<img src=@card.Img class="card-img-top">
+						}
+						else
+						{
+							<img src=@card.Img class="card-img-top zoom">
+						}
+						<div class="card-body">
+						<h5 class="card-title text-center">@card.Name</h5>
+						<p class="card-text text-center">@card.Flavor</p>
+					  </div>
+					  <ul class="list-group list-group-flush text-center">
+						<li class="list-group-item">Set: @card.CardSet</li>
+						<li class="list-group-item">Type: @card.Type</li>
+						<li class="list-group-item">Faction: @card.Faction</li>
+					  </ul>
+					</div>
+				</div>
+			}
+		}
+	</div>
+</div>
